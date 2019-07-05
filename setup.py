@@ -9,6 +9,7 @@ requires = [
     'zope.sqlalchemy', # integrate transaction manager into pyramid
     'bcrypt', # encrypt auth
     'alembic',  # migration runner
+    'webtest', # View Tests requirement
 ]
 
 setup(

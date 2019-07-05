@@ -34,7 +34,7 @@ def forbidden(request):
 
 
 def authenticate(client, secret, request):
-    u = user.User.by_client_and_secret(client, secret)
+    u = user.User.by_client_and_secret(client, secret, to_dict=True)
     if u is not None:
         request.context.user = u
         return []
@@ -64,12 +64,7 @@ class Route:
             # User management routes
             config.add_route('check_user', '/user/check')
             config.add_route('insert_user', '/user/insert')
-
-            # User management views
-            config.add_view(User.check_user, route_name='check_user', request_method=constants.GET,
-                            renderer='json', permission=Authenticated)
-            config.add_view(User.insert_user, route_name='insert_user', request_method=constants.POST,
-                            renderer='json', permission=NO_PERMISSION_REQUIRED)
+            config.add_route('list_user', '/user/list')
 
             # Authentication configuration
             authentication = auth.BasicAuthAuthenticationPolicy(check=authenticate, debug=True)

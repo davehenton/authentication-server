@@ -1,17 +1,23 @@
 import unittest
 
 import pyramid.paster as paster
-import pyramid.testing as testing
 import sqlalchemy
+from pyramid import testing
 from alembic.command import upgrade as alembic_upgrade, downgrade as alembic_downgrade
 from alembic.config import Config as AlembicConfig
 from sqlalchemy.orm import sessionmaker, scoped_session
+from webtest import TestApp
 
 
-class ModelTest(unittest.TestCase):
+class ViewsTest(unittest.TestCase):
+    user_client = 'system'
+    user_secret = 'Admin123'
 
     def setUp(self):
         super().setUp()
+        app = paster.get_app('test.ini', name='main')
+        self.app = TestApp(app)
+        self.app.set_authorization(('Basic', (self.user_client, self.user_secret)))
         settings = paster.get_appsettings('test.ini', name='main')
         self.config = testing.setUp(settings=settings)
         engine = sqlalchemy.engine_from_config(settings, 'sqlalchemy.')
@@ -24,5 +30,4 @@ class ModelTest(unittest.TestCase):
     def tearDown(self):
         super().tearDown()
         self.DBSession.remove()
-        alembic_downgrade(self.alembic_config, 'base')
         testing.tearDown()
