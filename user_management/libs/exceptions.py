@@ -1,9 +1,9 @@
-import http
 import functools
+import http
 
+import pyramid.httpexceptions as exc
 import pyramid.request
 import pyramid.testing as testing
-import pyramid.httpexceptions as exc
 
 
 def exc_handler(function):

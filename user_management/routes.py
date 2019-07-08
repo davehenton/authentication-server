@@ -1,16 +1,13 @@
 import http
-import json
 
 import pyramid.authentication as auth
 import pyramid.config as pyconfig
 import sqlalchemy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Allow, Authenticated, ALL_PERMISSIONS, NO_PERMISSION_REQUIRED
+from pyramid.security import Allow, Authenticated, ALL_PERMISSIONS
 
-import user_management.libs.constants as constants
 import user_management.models as models
 from user_management.libs import user
-from user_management.views.user import User
 
 
 def not_found(request):

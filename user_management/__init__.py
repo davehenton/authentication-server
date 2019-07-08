@@ -1,5 +1,3 @@
-from waitress import serve
-
 import user_management.routes
 
 

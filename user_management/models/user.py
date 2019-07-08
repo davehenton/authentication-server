@@ -1,4 +1,6 @@
-import json
+import datetime
+import hashlib
+import uuid
 
 import pyramid
 from sqlalchemy import (
@@ -10,9 +12,6 @@ from sqlalchemy import (
 )
 
 import user_management.models as models
-import datetime
-import uuid
-import hashlib
 
 
 class User(models.Base):
