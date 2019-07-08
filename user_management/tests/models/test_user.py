@@ -6,9 +6,10 @@ class User(ModelTest):
 
     def setUp(self):
         super().setUp()
-        import user_management.models.user as usermodel
-        u = usermodel.User('system', 'Admin123')
-        self.DBSession.add(u)
+        u = self.DBSession.query(user.User).filter(user.User.user_client == 'system').first()
+        if u is None:
+            u = user.User('system', 'Admin123')
+            self.DBSession.add(u)
 
     def tearDown(self):
         super().tearDown()
