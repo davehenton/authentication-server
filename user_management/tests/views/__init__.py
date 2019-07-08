@@ -23,7 +23,7 @@ class ViewsTest(unittest.TestCase):
         engine = sqlalchemy.engine_from_config(settings, 'sqlalchemy.')
         self.DBSession = scoped_session(sessionmaker())
         self.DBSession.configure(bind=engine)
-        self.alembic_config = AlembicConfig('alembic_test.ini')
+        self.alembic_config = AlembicConfig('alembic.ini')
         self.alembic_config.set_main_option('sqlalchemy.url', settings.get('sqlalchemy.url'))
         alembic_upgrade(self.alembic_config, 'head')
 

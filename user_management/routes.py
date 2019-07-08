@@ -4,10 +4,9 @@ import pyramid.authentication as auth
 import pyramid.config as pyconfig
 import sqlalchemy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Allow, Authenticated, ALL_PERMISSIONS
 
+import user_management.config.auth as authconf
 import user_management.models as models
-from user_management.libs import user
 
 
 def not_found(request):
@@ -30,23 +29,6 @@ def forbidden(request):
     return request.response
 
 
-def authenticate(client, secret, request):
-    u = user.User.by_client_and_secret(client, secret, to_dict=True)
-    if u is not None:
-        request.context.user = u
-        return []
-    return None
-
-
-class Context:
-    def __init__(self, request):
-        self.user = None
-
-    __acl__ = (
-        (Allow, Authenticated, ALL_PERMISSIONS),
-    )
-
-
 class Route:
     @staticmethod
     def load(**settings):
@@ -64,10 +46,10 @@ class Route:
             config.add_route('list_user', '/user/list')
 
             # Authentication configuration
-            authentication = auth.BasicAuthAuthenticationPolicy(check=authenticate, debug=True)
+            authentication = auth.BasicAuthAuthenticationPolicy(check=authconf.authenticate, debug=True)
             config.set_authentication_policy(authentication)
             config.set_authorization_policy(ACLAuthorizationPolicy())
-            config.set_root_factory(lambda request: Context(request))
+            config.set_root_factory(lambda request: authconf.Context(request))
 
             config.add_notfound_view(not_found, append_slash=True)
             return config.make_wsgi_app()
