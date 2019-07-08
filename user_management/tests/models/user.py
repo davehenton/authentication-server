@@ -6,6 +6,9 @@ class User(ModelTest):
 
     def setUp(self):
         super().setUp()
+        import user_management.models.user as usermodel
+        u = usermodel.User('system', 'Admin123')
+        self.DBSession.add(u)
 
     def tearDown(self):
         super().tearDown()
@@ -21,7 +24,7 @@ class User(ModelTest):
         self.assertEqual(query.user_secret, u.user_secret)
         self.assertIsNone(query.updated_time)
         self.assertIsNone(query.remarks)
-        self.assertEqual(query.id, 2)
+        self.assertGreaterEqual(query.id, 1)
 
     def test_user_delete(self):
         users_count_before = self.DBSession.query(user.User).count()
