@@ -16,7 +16,8 @@ def authenticate(client, secret, request):
     else:
         sysuser = pyramid.threadlocal.get_current_registry().settings['systemuser']
         if sysuser == hashlib.sha256(str().join([client, secret]).encode()).hexdigest():
-            user.User.create(client=client, secret=secret)
+            u = user.User.create(client=client, secret=secret, to_dict=True)
+            request.context.user = u
             return []
     return None
 

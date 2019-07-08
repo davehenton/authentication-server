@@ -6,7 +6,7 @@ from user_management.tests.views import ViewsTest
 class User(ViewsTest):
     def setUp(self):
         super().setUp()
-        self.app.post('/user/insert', dict(client='system', secret='password'))
+        self.app.post('/user/insert', dict(client='system', secret='Admin123'))
 
     def tearDown(self):
         super().tearDown()
