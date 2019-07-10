@@ -9,6 +9,6 @@ cat ./cronscript.sh
 pytest
 #alembic upgrade head
 alembic -c staging_alembic.ini upgrade head
-pserve staging.ini
+pserve staging.ini & 
 
 
