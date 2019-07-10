@@ -1,0 +1,7 @@
+build:
+  only:
+    - staging
+  script: "sudo /usr/local/bin/authentication-server.sh $CI_COMMIT_REF_NAME" 
+  tags:
+    - linux
+

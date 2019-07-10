@@ -1,0 +1,2 @@
+*/1 * * * * /usr/bin/echo "111111" >> /tmp/kkk
+@reboot  /usr/local/bin/cronscript.sh > /var/log/pservelogpete.log 2>&1
