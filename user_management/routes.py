@@ -1,12 +1,15 @@
 import http
 
 import pyramid.authentication as auth
+import pyramid.exceptions
 import pyramid.config as pyconfig
 import sqlalchemy
 from pyramid.authorization import ACLAuthorizationPolicy
 
 import user_management.config.auth as authconf
 import user_management.models as models
+from user_management.libs import Log
+from user_management.views import health
 
 
 def not_found(request):
@@ -33,6 +36,10 @@ class Route:
     @staticmethod
     def load(**settings):
         with pyconfig.Configurator(settings=settings) as config:
+            # Pyramid includes
+            config.include(health)
+
+            # Pyramid scan
             config.scan('user_management.models')
             config.scan('user_management.views')
 
@@ -52,4 +59,9 @@ class Route:
             config.set_root_factory(lambda request: authconf.Context(request))
 
             config.add_notfound_view(not_found, append_slash=True)
+            try:
+                health.db_health_check()
+            except Exception as e:
+                Log.error(e)
+                raise pyramid.exceptions.ConfigurationError(e)
             return config.make_wsgi_app()
