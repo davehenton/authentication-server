@@ -38,4 +38,9 @@ export GIT_BRANCH="$BRANCH"
 
 ./cc-test-reporter after-build -d -t coverage.py
 
+if [ $? == 0 ]; then
+echo "Everything Completed Successfully ... Cheers ... Peter"
+else
+echo "Whoops, something went wrong, send to Peter please"
+fi
 
