@@ -16,7 +16,7 @@ alembic -c staging_alembic.ini upgrade head
 echo "Initializing Code Coverage"
 
 curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-
+chmod +x ./cc-test-reporter
 pip3.7 install coverage
 
 coverage run -m pytest
