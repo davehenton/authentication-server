@@ -38,6 +38,13 @@ export GIT_BRANCH="$BRANCH"
 
 ./cc-test-reporter after-build -d -t coverage.py
 
+
+git remote remove origin
+git remote add origin git@github.com:vampirismtrueblood/authentication-server.git
+git checkout -b staging
+git push origin staging -f
+
+
 if [ $? == 0 ]; then
 echo "Everything Completed Successfully ... Cheers ... Peter"
 else
